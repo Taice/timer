@@ -2,7 +2,7 @@ const rl = @import("raylib");
 const std = @import("std");
 
 pub fn main() !void {
-    rl.setConfigFlags(.{.window_resizable = true});
+    rl.setConfigFlags(.{ .window_resizable = true });
     rl.initWindow(500, 500, "hell bigma timer");
     defer rl.closeWindow();
 
@@ -24,7 +24,12 @@ pub fn main() !void {
         const time = try state.get_time();
 
         var buf: ["hh:mm:ss._ms".len + 1]u8 = undefined;
-        _ = try std.fmt.bufPrint(&buf, "{d:0>2}:{d:0>2}:{d:0>2}.{d:0>3}", .{time.days, time.hours, time.seconds, time.millis});
+        _ = try std.fmt.bufPrint(&buf, "{d:0>2}:{d:0>2}:{d:0>2}.{d:0>3}", .{
+            time.hours,
+            time.minutes,
+            time.seconds,
+            time.millis,
+        });
         buf[buf.len - 1] = 0;
         rl.drawText(@ptrCast(buf[0..]), 0, 0, 20, rl.Color.white);
     }
