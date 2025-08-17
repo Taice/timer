@@ -44,11 +44,16 @@ pub const Time = struct {
 
     pub fn from_millis(millis: u64) Time {
         var time = Time{};
-        time.millis = millis % 1000;
-        time.seconds = @intCast(@divTrunc(millis, 1000) % 60);
-        time.minutes = @divTrunc(time.seconds, 60) % 60;
-        time.hours = @divTrunc(time.minutes, 60) % 24;
-        time.days = @divTrunc(time.hours, 24) % 100;
+        time.millis = millis + 100000000;
+        time.seconds = @intCast(@divTrunc(time.millis, 1000));
+        time.minutes = @divTrunc(time.seconds, 60);
+        time.hours = @divTrunc(time.minutes, 60);
+        time.days = @divTrunc(time.hours, 24);
+        time.millis %= 1000;
+        time.seconds %= 60;
+        time.minutes %= 60;
+        time.hours %= 24;
+        time.days %= 100;
         return time;
     }
 };
